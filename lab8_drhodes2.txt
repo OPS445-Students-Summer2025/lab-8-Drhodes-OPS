@@ -1,0 +1,40 @@
+
+PLAY [drhodes] *****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [drhodes]
+
+TASK [Update Apache to latest version] *****************************************
+ok: [drhodes]
+
+TASK [Install EPEL repository] *************************************************
+ok: [drhodes]
+
+TASK [Remove tree package] *****************************************************
+ok: [drhodes]
+
+TASK [Set hostname to Seneca ID] ***********************************************
+ok: [drhodes]
+
+TASK [Create user account] *****************************************************
+ok: [drhodes]
+
+TASK [Give sudo access to Seneca user] *****************************************
+ok: [drhodes]
+
+TASK [Add SSH public key to user for passwordless login] ***********************
+ok: [drhodes]
+
+TASK [Create lab directory structure] ******************************************
+ok: [drhodes] => (item=1)
+ok: [drhodes] => (item=2)
+ok: [drhodes] => (item=3)
+ok: [drhodes] => (item=4)
+ok: [drhodes] => (item=5)
+ok: [drhodes] => (item=6)
+ok: [drhodes] => (item=7)
+ok: [drhodes] => (item=8)
+
+PLAY RECAP *********************************************************************
+drhodes                    : ok=9    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
