@@ -1,0 +1,48 @@
+
+---
+- hosts: drhodes
+  user: student
+  become: yes
+  vars:
+    seneca_id: drhodes2
+    lab_base_dir: "/home/{{ seneca_id }}/ops445"
+    ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  tasks:
+    - name: Update Apache to latest version
+      action: yum name=httpd state=latest
+
+    - name: Install EPEL repository
+      action: yum name=epel-release state=present
+
+    - name: Remove tree package
+      action: yum name=tree state=absent
+
+    - name: Set hostname to Seneca ID
+      hostname:
+        name: "{{ seneca_id }}"
+
+    - name: Create user account
+      user:
+        name: "{{ seneca_id }}"
+        shell: /bin/bash
+        create_home: yes
+
+    - name: Give sudo access to Seneca user
+      copy:
+        dest: "/etc/sudoers.d/{{ seneca_id }}"
+        content: "{{ seneca_id }} ALL=(ALL) NOPASSWD:ALL"
+        mode: "0440"
+
+    - name: Add SSH public key to user for passwordless login
+      authorized_key:
+        user: "{{ seneca_id }}"
+        key: "{{ ssh_pub_key }}"
+
+    - name: Create lab directory structure
+      file:
+        path: "{{ lab_base_dir }}/lab{{ item }}"
+        state: directory
+        owner: "{{ seneca_id }}"
+        group: "{{ seneca_id }}"
+        mode: "0755"
+      loop: "{{ range(1,9) | list }}"
